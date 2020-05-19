@@ -52,7 +52,10 @@ class Pembobotan {
 			// 	}
 			// }
 			foreach ($tf as $term => $frekuensi) {				
-				$this->termModel->builder()->ignore(true)->insert(['term' => $term]);
+				// $this->termModel->builder()->ignore(true)->insert(['term' => $term]);
+				if (empty($this->termModel->find($term))) {
+					$this->termModel->insert(['term' => $term]);		
+				}						
 				$this->bobotModel->builder()->ignore(true)->insert(['term' => $term, 'url' => $value['url'], 'tf' => $frekuensi]);
 			}
 		}

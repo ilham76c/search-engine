@@ -40,7 +40,7 @@
             <div class="pager">
                 <?php if ($pager) :?>                
                     <?php //$pager->setPath('search_engine/public/'); ?>
-                    <?= $pager->links('no','custom_pager'); ?>
+                    <?= $pager->links('no','default_full'); ?>
           
                 <?php endif; ?>  
             </div>

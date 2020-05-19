@@ -12,7 +12,7 @@ $pager->setSurroundCount(2);
                 </a>
             </li>
             <li>
-                <a href="<?= $pager->getPreviousPage() ?>" aria-label="<?= lang('Pager.previous') ?>">
+                <a href="<?= $pager->getPrevious() ?>" aria-label="<?= lang('Pager.previous') ?>">
                     <span aria-hidden="true"><?= lang('Pager.previous') ?></span>
                 </a>
             </li>
@@ -28,7 +28,7 @@ $pager->setSurroundCount(2);
 
         <?php if ($pager->hasNext()) : ?>
             <li>
-                <a href="<?= $pager->getNextPage() ?>" aria-label="<?= lang('Pager.next') ?>">
+                <a href="<?= $pager->getNext() ?>" aria-label="<?= lang('Pager.next') ?>">
                     <span aria-hidden="true"><?= lang('Pager.next') ?></span>
                 </a>
             </li>
