@@ -123,6 +123,7 @@
             ?>      
             <form class="col-lg-4" method="post" role="form" action="<?= $action;?>">
               <div class="box-body">
+                <input name="id" type="hidden" value="<?php echo !empty($lema) ? $lema->id : '';?>">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Kata</label>
                   <input name="kata" type="text" class="form-control" id="kata" placeholder="Kata.." oninvalid="this.setCustomValidity('Tidak boleh kosong!!')" oninput="this.setCustomValidity('')" value="<?php echo !empty($lema) ? $lema->kata : '';?>" required>

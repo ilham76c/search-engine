@@ -1,9 +1,9 @@
 <?php namespace App\Controllers;
 
 use App\Libraries\Pembobotan;
-use App\Models\TesaurusModel;
 use App\Libraries\Query;
 use App\Libraries\Dokumen;
+use App\Libraries\Tesaurus;
 
 helper('form');
 
@@ -12,9 +12,10 @@ class Home extends BaseController
 	function __construct() {						
 		$this->pembobotan = Pembobotan::getInstance();
 		$this->request = \Config\Services::request();
-		$this->tesaurusModel = TesaurusModel::getInstance();
+		$this->tesaurus = Tesaurus::getInstance();
 		$this->query = Query::getInstance();
 		$this->dokumen = Dokumen::getInstance();		
+
 	}
 
 	public function index()
@@ -32,7 +33,7 @@ class Home extends BaseController
 
 	public function admin() 
 	{
-		$data['tesaurus'] = $this->tesaurusModel->findAll();		
+		$data['tesaurus'] = $this->tesaurus->getAll();		
 		return view('admin/page', $data);
 	}
 
@@ -65,7 +66,7 @@ class Home extends BaseController
 		$this->pembobotan->hitungBobot();
 	}	
 
-	public function tesaurus($action,$value=null)
+	public function tesaurus($action)
 	{
 		switch ($action) {
 			case 'form':
@@ -73,25 +74,31 @@ class Home extends BaseController
 				return view('admin/form-tesaurus', $data);
 				break;					
 			case 'tambah':
-				$a = $this->tesaurusModel->builder()->ignore(true)->insert([
-					'kata' => $this->request->getVar('kata'),
-					'gugus_kata' => $this->request->getVar('gugus_kata')
-				]);
-				$status = ($a == 0) ? 'gagal' : 'sukses';
+				$result = $this->tesaurus->insert(
+					$this->request->getVar('kata'),
+					$this->request->getVar('gugus_kata')
+				);
+				$status = $result ? 'sukses' : 'gagal';
 				return redirect()->to('form')->with('status', $status)->withInput();
 				break;
 			case 'edit':
-				$data['lema'] = $this->tesaurusModel->find($this->request->getVar('id'));
-				$data['action'] = 'update';				
+				$data['lema'] = $this->tesaurus->get($this->request->getVar('id'));
+				$data['action'] = 'update';								
 				return view('admin/form-tesaurus', $data);
 				break;
 			case 'update':
-				$this->tesaurusModel->where('kata', $this->request->getVar('kata'))->set(['gugus_kata' => $this->request->getVar('gugus_kata')])->update();
-				$data['action'] = 'update';				
+				$result = $this->tesaurus->update(
+					$this->request->getVar('id'),
+					$this->request->getVar('kata'),
+					$this->request->getVar('gugus_kata')
+				);
+				$data['action'] = 'update';	
+				$status = $result ? 'sukses' : 'gagal';			
+				//return redirect()->to('form')->with('status', $data)->withInput();
 				return view('admin/form-tesaurus', $data);
 				break;
 			case 'delete':
-				$this->tesaurusModel->where('id', $this->request->getVar('id'))->delete();
+				$this->tesaurus->delete($this->request->getVar('id'));
 				return redirect('admin');
 				break;
 			default:
