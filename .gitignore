@@ -126,6 +126,6 @@ nb-configuration.xml
 /phpunit*.xml
 /.phpunit.*.cache
 
-/public/assets/bower_components
-/public/assets/dist
-/public/assets/plugins
+# /public/assets/bower_components
+# /public/assets/dist
+# /public/assets/plugins
