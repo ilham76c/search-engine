@@ -20,7 +20,16 @@ body {
 
 #input-search {    
     border-radius: 15px;    
-    border-style: none;         
+    border-style: none;             
+}
+#input-search:-webkit-autofill,
+#input-search:-webkit-autofill:hover,
+#input-search:-webkit-autofill:focus,
+#input-search:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;    
+}
+#input-search:focus {    
+    outline: none;
 }
 
 #btn-search:hover {
