@@ -39,11 +39,12 @@ class Query {
 
     public function bobotQuery($query)
 	{
-        $tf_query = 
-		$this->preprocessing->tokenizing(
-			$this->preprocessing->stopwordRemoval(
-				$this->preprocessing->caseFolding($query)
-			)
+        $tf_query = $this->preprocessing->tokenizing(
+            $this->preprocessing->stemming(
+                $this->preprocessing->stopwordRemoval(
+                    $this->preprocessing->caseFolding($query)
+                )
+            )
         );
         
 		$tfidf_query = array();
@@ -56,7 +57,7 @@ class Query {
                  }                 
 			}
         );		        		
-		
+		print_r($tf_query);
         $paVek_query = array_map(
             function($tfidf) {
                 return $tfidf ** 2;
