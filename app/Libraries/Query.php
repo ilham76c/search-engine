@@ -57,7 +57,7 @@ class Query {
                  }                 
 			}
         );		        		
-		print_r($tf_query);
+		
         $paVek_query = array_map(
             function($tfidf) {
                 return $tfidf ** 2;

@@ -39,9 +39,7 @@ class Home extends BaseController
 
 	public function search() 
 	{					
-		$query = $this->query->queryExpansion($this->request->getVar('query'));		
-		print_r($query);
-		echo '<br/>';
+		$query = $this->query->queryExpansion($this->request->getVar('query'));						
 		list($tfidf_query, $paVek_query) = $this->query->bobotQuery($query);	
 		if (empty($tfidf_query)) {
 			echo "Pencarian/kata kunci tidak ditemukan !!";
