@@ -26,7 +26,10 @@ class Pembobotan {
 
     public function hitungBobot()
     {
-        self::tf(); self::idf(); self::tfidf(); self::panjangVektor();
+		$this->tf(); 
+		$this->idf(); 
+		$this->tfidf(); 
+		$this->panjangVektor();
     }
 
     private function tf() 
@@ -55,8 +58,8 @@ class Pembobotan {
 				// $this->termModel->builder()->ignore(true)->insert(['term' => $term]);
 				if (empty($this->termModel->find($term))) {
 					$this->termModel->insert(['term' => $term]);		
-				}						
-				$this->bobotModel->builder()->ignore(true)->insert(['term' => $term, 'url' => $value['url'], 'tf' => $frekuensi]);
+				}				
+				$this->bobotModel->builder()->ignore(true)->insert(['term' => $term, 'url' => $value['url'], 'tf' => 1 + log10($frekuensi)]);
 			}
 		}
 	}
@@ -86,9 +89,10 @@ class Pembobotan {
 	
 	private function panjangVektor() 
 	{		
-		$panjang_vektor = 0;
+		
 		$url = $this->dokumenModel->findColumn('url');
 		foreach ($url as $value) {			
+			$panjang_vektor = 0;
 			$bobot = $this->bobotModel->where('url', $value)->findColumn('tf_idf');
 			foreach ($bobot as $tfidf) {
 				$panjang_vektor += $tfidf**2;				
@@ -103,7 +107,7 @@ class Pembobotan {
 	}
 
     public function cosineSimilarity($query, $dokumen, $paVek_query)
-    {
+    {		
 		$bobot_dokumen = array();
 		foreach ($dokumen as $url => $terms) {
 			$sumsq_tfidf = 0;
@@ -112,9 +116,10 @@ class Pembobotan {
 			}
 			$bobot_dokumen[$url] = $sumsq_tfidf;
 		}
+		
 		$rangking = array();
 		foreach ($bobot_dokumen as $url => $sumsq) {						
-			$rangking[$url] = $sumsq / ($paVek_query * self::getPanjangVektor($url));
+			$rangking[$url] = $sumsq / ($paVek_query * $this->getPanjangVektor($url));
 		}		
 		
 		return $rangking;
