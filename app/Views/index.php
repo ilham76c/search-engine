@@ -26,10 +26,10 @@
                 <?php if($documents): ?>
                     <?php foreach($documents as $dokumen): ?>                
                         <article class="card">
-                            <a class="title" href="#"><h4 class="title"><?php echo $dokumen->title;?></h4></a>
+                            <a class="title" href="<?php echo $dokumen->url;?>"><h4 class="title"><?php echo $dokumen->title;?></h4></a>
                             <small><a class="url" href="<?php echo $dokumen->url;?>"><?php echo $dokumen->url;?></a></small>                    
                             <div class="wrap">
-                                <a class="description" href="#">
+                                <a class="description" href="<?php echo $dokumen->url;?>">
                                     <p><?php echo $dokumen->description;?></p>
                                 </a>
                             </div>                                        
