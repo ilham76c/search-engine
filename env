@@ -49,11 +49,11 @@ CI_ENVIRONMENT = development
 # DATABASE
 #--------------------------------------------------------------------
 
-# database.default.hostname = localhost
-# database.default.database = ci4
-# database.default.username = root
-# database.default.password = root
-# database.default.DBDriver = MySQLi
+#database.default.hostname = localhost
+#database.default.database = db_search_engine
+#database.default.username = root
+#database.default.password = passmysql1997
+#database.default.DBDriver = MySQLi
 
 # database.tests.hostname = localhost
 # database.tests.database = ci4
