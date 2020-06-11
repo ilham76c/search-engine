@@ -127,5 +127,5 @@ nb-configuration.xml
 /.phpunit.*.cache
 
 # tambahan
-.env
-/app/Config/Database.php
+!env
+!*/app/Config/Database.php
