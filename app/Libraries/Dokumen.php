@@ -4,6 +4,7 @@ use App\Models\BobotModel;
 use App\Models\DokumenModel;
 use App\Models\HasilModel;
 
+
 class Dokumen {
     private static $instance = null;
 
@@ -22,17 +23,25 @@ class Dokumen {
     }
 
     public function getRelevanDokumen(array $query) : array
-	{		                        
-		$dokumen = $this->bobotModel->builder()->select(['term','url','tf_idf'])->whereIn('term', $query)->get();        
-        $tfidf_dokumen = array();				
-        array_walk (
-            $dokumen->getResult(),
-            function($row) use (&$tfidf_dokumen) {
-                $tfidf_dokumen[$row->url][$row->term] = $row->tf_idf;
-            }
-        );
-        
-		return $tfidf_dokumen;
+	{		           
+        try {
+            $dokumen = $this->bobotModel->builder()->select(['term','url','tf_idf'])->whereIn('term', $query)->get();        
+            $tfidf_dokumen = array();				
+            array_walk (
+                $dokumen->getResult(),
+                function($row) use (&$tfidf_dokumen) {
+                    $tfidf_dokumen[$row->url][$row->term] = $row->tf_idf;
+                }
+            );
+            
+            return $tfidf_dokumen;
+        }
+        catch (\Exception $e) {
+            die($e->getMessage());
+        }
+        finally {
+            unset($dokumen, $tfidf_dokumen);
+        }
     }
 
     public function resetResult()
@@ -42,16 +51,24 @@ class Dokumen {
     
     public function result(array $dokumen)
 	{	        		
-		$dokumen_relevan = $this->dokumenModel->builder()->select(['url','title','description'])->whereIn('url', array_keys($dokumen))->get();		        
-        $this->resetResult();
-                
-		foreach ($dokumen_relevan->getResult() as $row) {
-			$this->hasilModel->builder()->ignore(true)->insert([
-				'url' => $row->url,
-				'title' => $row->title,
-				'description' => $row->description,
-				'rangking' => $dokumen[$row->url]
-			]);
-        }		
+        try {
+            $dokumen_relevan = $this->dokumenModel->builder()->select(['url','title','description'])->whereIn('url', array_keys($dokumen))->get();		        
+            $this->resetResult();
+                    
+            foreach ($dokumen_relevan->getResult() as $row) {
+                $this->hasilModel->builder()->ignore(true)->insert([
+                    'url' => $row->url,
+                    'title' => $row->title,
+                    'description' => $row->description,
+                    'rangking' => $dokumen[$row->url]
+                ]);
+            }		
+        }
+        catch (\Exception $e) {
+            die($e->getMessage());
+        }
+        finally {
+            unset($dokumen_relevan);
+        }
 	}
 }

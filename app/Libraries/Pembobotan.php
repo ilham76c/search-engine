@@ -34,60 +34,92 @@ class Pembobotan {
 
     private function tf() 
 	{	
-		$dokumen = $this->dokumenModel->findAll();
+		try {
+			$dokumen = $this->dokumenModel->findAll();
 
-		foreach ($dokumen as $value) {			
-			$tf = 
-			$this->preprocessing->tokenizing(
-				$this->preprocessing->stemming(
-					$this->preprocessing->stopwordRemoval(
-						$this->preprocessing->caseFolding($value['title'].' '.$value['description'])
+			foreach ($dokumen as $value) {			
+				$tf = 
+				$this->preprocessing->tokenizing(
+					$this->preprocessing->stemming(
+						$this->preprocessing->stopwordRemoval(
+							$this->preprocessing->caseFolding($value['title'].' '.$value['description'])
+						)
 					)
-				)
-			);
-			
-			foreach ($tf as $term => $frekuensi) {								
-				if (empty($this->termModel->find($term))) {
-					$this->termModel->insert(['term' => $term]);		
-				}				
-				$this->bobotModel->builder()->ignore(true)->insert(['term' => $term, 'url' => $value['url'], 'tf' => 1 + log10($frekuensi)]);
+				);
+				
+				foreach ($tf as $term => $frekuensi) {								
+					if (empty($this->termModel->find($term))) {
+						$this->termModel->insert(['term' => $term]);		
+					}				
+					$this->bobotModel->builder()->ignore(true)->insert(['term' => $term, 'url' => $value['url'], 'tf' => 1 + log10($frekuensi)]);
+				}
 			}
+		}
+		catch (\Exception $e) {
+            die($e->getMessage());
+		}
+		finally {
+			unset($dokumen, $tf);
 		}
 	}
 
 	private function idf() 
-	{		
-		$terms = $this->termModel->findColumn('term');
-		$n = count($this->dokumenModel->findAll());
-		
-		foreach ($terms as $term) {			
-			$df = count($this->bobotModel->where('term',$term)->findAll());
-			$idf = (log10($n/$df))+1;			
-			$this->termModel->update($term, ['df' => $df, 'idf' => $idf]);
-		}				
+	{	
+		try {	
+			$terms = $this->termModel->findColumn('term');
+			$n = count($this->dokumenModel->findAll());
+			
+			foreach ($terms as $term) {			
+				$df = count($this->bobotModel->where('term',$term)->findAll());
+				$idf = (log10($n/$df))+1;			
+				$this->termModel->update($term, ['df' => $df, 'idf' => $idf]);
+			}
+		}
+		catch (\Exception $e) {
+            die($e->getMessage());
+		}
+		finally {
+			unset($terms, $n, $df, $idf);
+		}
 	}
 	
 	private function tfidf() 
 	{		
-		$bobot = $this->bobotModel->findAll();
+		try {
+			$bobot = $this->bobotModel->findAll();
 
-		foreach ($bobot as $value) {
-			$term = $this->termModel->find($value['term']);
-			$tfidf = $value['tf'] * $term['idf'];			
-			$this->bobotModel->where(['term' =>  $value['term'], 'url' => $value['url']])->set(['tf_idf' => $tfidf])->update();
+			foreach ($bobot as $value) {
+				$term = $this->termModel->find($value['term']);
+				$tfidf = $value['tf'] * $term['idf'];			
+				$this->bobotModel->where(['term' =>  $value['term'], 'url' => $value['url']])->set(['tf_idf' => $tfidf])->update();
+			}
+		}
+		catch (\Exception $e) {
+            die($e->getMessage());
+		}
+		finally {
+			unset($bobot, $term, $tfidf);
 		}
 	}
 	
 	private function panjangVektor() 
-	{				
-		$url = $this->dokumenModel->findColumn('url');
-		foreach ($url as $value) {			
-			$panjang_vektor = 0;
-			$bobot = $this->bobotModel->where('url', $value)->findColumn('tf_idf');
-			foreach ($bobot as $tfidf) {
-				$panjang_vektor += $tfidf**2;				
+	{
+		try {
+			$url = $this->dokumenModel->findColumn('url');
+			foreach ($url as $value) {			
+				$panjang_vektor = 0;
+				$bobot = $this->bobotModel->where('url', $value)->findColumn('tf_idf');
+				foreach ($bobot as $tfidf) {
+					$panjang_vektor += $tfidf**2;				
+				}
+				$this->dokumenModel->update($value, ['panjang_vektor' => sqrt($panjang_vektor)]);
 			}
-			$this->dokumenModel->update($value, ['panjang_vektor' => sqrt($panjang_vektor)]);
+		}
+		catch (\Exception $e) {
+            die($e->getMessage());
+		}
+		finally {
+			unset($url, $panjang_vektor, $bobot);
 		}
 	}    
 	
@@ -98,20 +130,28 @@ class Pembobotan {
 
     public function cosineSimilarity(array $query, array $dokumen, float $paVek_query) : array
     {		
-		$bobot_dokumen = array();
-		foreach ($dokumen as $url => $terms) {
-			$sumsq_tfidf = 0;
-			foreach ($terms as $term => $tfidf) {
-				$sumsq_tfidf += $query[$term] * $tfidf;
+		try {
+			$bobot_dokumen = array();
+			foreach ($dokumen as $url => $terms) {
+				$sumsq_tfidf = 0;
+				foreach ($terms as $term => $tfidf) {
+					$sumsq_tfidf += $query[$term] * $tfidf;
+				}
+				$bobot_dokumen[$url] = $sumsq_tfidf;
 			}
-			$bobot_dokumen[$url] = $sumsq_tfidf;
+			
+			$rangking = array();
+			foreach ($bobot_dokumen as $url => $sumsq) {						
+				$rangking[$url] = $sumsq / ($paVek_query * $this->getPanjangVektor($url));
+			}		
+			
+			return $rangking;
 		}
-		
-		$rangking = array();
-		foreach ($bobot_dokumen as $url => $sumsq) {						
-			$rangking[$url] = $sumsq / ($paVek_query * $this->getPanjangVektor($url));
-		}		
-		
-		return $rangking;
-	}
+		catch (\Exception $e) {
+			die($e->getMessage());
+		}
+		finally {
+			unset($bobot_dokumen, $sumsq_tfidf, $rangking);
+		}
+	}	
 }

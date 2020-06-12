@@ -18,50 +18,50 @@ class Tesaurus {
         return self::$instance;
     }
 
-    public function get($id)
+    public function get(string $id) : object
     {
         return $this->tesaurusModel->find($id);   
     }
 
-    public function getAll()
+    public function getAll() : array
     {
         return $this->tesaurusModel->findAll();
     }
 
-    public function insert($kata, $gugus_kata)
+    public function insert(string $kata, string $gugus_kata) : bool
     {
         $result = $this->tesaurusModel->builder()->ignore(true)->insert(
             [
                 'kata' => trim($kata),
-                'gugus_kata' => self::formatString($gugus_kata)
+                'gugus_kata' => $this->formatString($gugus_kata)
             ]            
         );
-        return self::booleanResult($result);
+        return $this->booleanResult($result);
     }
 
-    public function update($id, $kata, $gugus_kata)
+    public function update(string $id, string $kata, string $gugus_kata) : bool
     {
         $result = $this->tesaurusModel->where('id', $id)->set(
             [
                 'kata' => trim($kata),
-                'gugus_kata' => self::formatString($gugus_kata)
+                'gugus_kata' => $this->formatString($gugus_kata)
             ]
         )->update();
-        return self::booleanResult($result);
+        return $this->booleanResult($result);
     }
 
-    public function delete($id)
+    public function delete(string $id) : bool
     {
         $result = $this->tesaurusModel->where('id', $id)->delete(false);                                
-        return self::booleanResult($result->connID->affected_rows);
+        return $this->booleanResult($result->connID->affected_rows);
     }
 
-    private function booleanResult($result) 
+    private function booleanResult(int $result) : bool
     {
         return ($result !== 0) ? true : false;
     }
 
-    private function formatString($gugus_kata)
+    private function formatString(string $gugus_kata) : string
     {        
         return implode(',',array_map(function($val){return trim($val);},explode(',',$gugus_kata)));
     }
