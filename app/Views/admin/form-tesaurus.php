@@ -21,7 +21,7 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/dist/css/skins/_all-skins.min.css">
   <!-- bootstrap wysihtml5 - text editor -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <!-- <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"> -->
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -181,10 +181,10 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>/assets/dist/js/demo.js"></script>
 <!-- CK Editor -->
-<script src="<?php echo base_url(); ?>/assets/bower_components/ckeditor/ckeditor.js"></script>
+<!-- <script src="<?php echo base_url(); ?>/assets/bower_components/ckeditor/ckeditor.js"></script> -->
 <!-- Bootstrap WYSIHTML5 -->
-<script src="<?php echo base_url(); ?>/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-<script>
+<!-- <script src="<?php echo base_url(); ?>/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script> -->
+<!-- <script>
   $(function () {
     // Replace the <textarea id="editor1"> with a CKEditor
     // instance, using default configuration.
@@ -192,6 +192,6 @@
     //bootstrap WYSIHTML5 - text editor
     $('.textarea').wysihtml5()
   })
-</script>
+</script> -->
 </body>
 </html>
