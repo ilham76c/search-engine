@@ -37,7 +37,7 @@ $routes->get('/search', 'Home::search');
 $routes->get('/pembobotan', 'Home::hitungBobot');
 $routes->add('/admin', 'Home::admin');
 $routes->add('/stem', 'Home::stem');
-//$routes->add('/rangking', 'Home::cosineSimilarity');
+$routes->get('/result', 'Home::result');
 $routes->add('/tesaurus/(:segment)', 'Home::tesaurus/$1');
 /**
  * --------------------------------------------------------------------
