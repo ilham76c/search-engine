@@ -94,6 +94,7 @@ body {
     padding: 6px 15px;
     width: 38%;
     background-color: white;
+    min-width: max-content; 
 }
 
 .search-bar:hover {
