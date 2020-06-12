@@ -24,41 +24,65 @@ class Home extends BaseController
 
 	public function result()
 	{
-		$model = new \App\Models\HasilModel();
-		
-		$model->orderBy('rangking','DESC');
-		$data = [
-			'documents' => $model->paginate(10, 'no'),
-			'pager' => $model->pager
-		];
+		try {
+			$model = new \App\Models\HasilModel();
+			
+			$model->orderBy('rangking','DESC');
+			$data = [
+				'documents' => $model->paginate(10, 'no'),
+				'pager' => $model->pager
+			];
 
-		return view('result', $data);		
-	}
-
-	public function admin() 
-	{
-		$data['tesaurus'] = $this->tesaurus->getAll();		
-		return view('admin/page', $data);
+			return view('result', $data);
+		}
+		catch (\Exception $e) {
+			die($e->getMessage());
+		}
+		finally {
+			unset($model, $data);
+		}
 	}
 
 	public function search() 
 	{					
-		$query = $this->query->queryExpansion($this->request->getVar('query'));						
-		list($tfidf_query, $paVek_query) = $this->query->bobotQuery($query);	
-		if (empty($tfidf_query)) {			
-			$this->dokumen->resetResult();			
-		} else {			
-			$tfidf_dokumen = $this->dokumen->getRelevanDokumen(array_keys($tfidf_query));		
-			$bobot_dokumen = $this->pembobotan->cosineSimilarity($tfidf_query, $tfidf_dokumen, $paVek_query);
-			$this->dokumen->result($bobot_dokumen);						
-		}					
-		return redirect()->to('result')->withInput();
+		try {
+			$query = $this->query->queryExpansion($this->request->getVar('query'));						
+			list($tfidf_query, $paVek_query) = $this->query->bobotQuery($query);	
+			if (empty($tfidf_query)) {			
+				$this->dokumen->resetResult();			
+			} else {			
+				$tfidf_dokumen = $this->dokumen->getRelevanDokumen(array_keys($tfidf_query));		
+				$bobot_dokumen = $this->pembobotan->cosineSimilarity($tfidf_query, $tfidf_dokumen, $paVek_query);
+				$this->dokumen->result($bobot_dokumen);						
+			}					
+			return redirect()->to('result')->withInput();
+		}
+		catch (\Exception $e) {
+			die($e->getMessage());
+		}
+		finally {
+			unset($query, $tfidf_query, $paVek_query, $tfidf_dokumen, $bobot_dokumen);
+		}
 	}
 
 	public function hitungBobot()
 	{
 		$this->pembobotan->hitungBobot();
 	}	
+	
+	public function admin() 
+	{
+		try {
+			$data['tesaurus'] = $this->tesaurus->getAll();		
+			return view('admin/page', $data);
+		}
+		catch (\Exception $e) {
+			die($e->getMessage());
+		}
+		finally {
+			unset($data);
+		}
+	}
 
 	public function tesaurus($action)
 	{
