@@ -1,0 +1,107 @@
+* {
+    box-sizing: border-box;    
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+/* Body open */
+body {
+    /* background-color: rgb(245, 245, 245); */
+    margin: 0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;    
+    background-color:white;    
+}
+/* Body Close */
+
+/* Header Open */
+
+#input-search {    
+    border-radius: 20px;    
+    border-style: none;
+    margin-right: 5px;    
+    padding: 0 5px;
+    width: 100%;
+}
+#input-search:-webkit-autofill,
+#input-search:-webkit-autofill:hover,
+#input-search:-webkit-autofill:focus,
+#input-search:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;    
+}
+#input-search:focus {    
+    outline: none;
+}
+
+#btn-search:hover {
+    background: url('.././icon/search-bold.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#btn-search {
+    background: url('.././icon/search-outline.svg');    
+    height: 30px;
+    width: 30px;
+    border-style: none;
+    background-repeat: no-repeat;    
+    background-size: cover;    
+    margin: auto;
+    cursor: pointer;        
+}
+
+.logo {        
+    display: inline-flex;
+    align-self: center;    
+    vertical-align: middle;
+    margin-bottom: 20px;
+}
+.logo h1 {
+    margin: auto;
+    font-size: 3em;
+    font-family: sans-serif;
+    font-variant: small-caps;
+    font-stretch: ultra-expanded;
+    color: rgb(150, 211, 240);
+}
+#gbr {
+    height: 90px;    
+}
+.jos {    
+    position: absolute;
+    display: flex;    
+    top:0;
+    bottom: 0;
+	left: 0;
+    right: 0;         
+    padding-bottom: 100px;
+}
+.bar {              
+    position: relative;
+    display: flex;
+    flex-direction: column;         
+    width: 100%;     
+    margin: auto;
+}
+
+.search-bar {
+    align-self: center;    
+    border-radius: 35px;
+    border-style: solid;
+    border-color: rgb(189, 204, 238);            
+    padding: 6px 15px;
+    width: 38%;
+    background-color: white;
+}
+
+.search-bar:hover {
+    /* box-shadow: 5px 5px 1px 2px #bed0ff; */
+    box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.2);
+}
+.auto {
+    display: flex;
+    width: 100%;
+    background-color: white;
+}

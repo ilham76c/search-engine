@@ -20,7 +20,8 @@ body {
 
 #input-search {    
     border-radius: 15px;    
-    border-style: none;             
+    border-style: none;         
+    width: 100%;              
 }
 #input-search:-webkit-autofill,
 #input-search:-webkit-autofill:hover,
@@ -45,11 +46,19 @@ body {
     border-style: none;
     background-repeat: no-repeat;    
     background-size: cover;    
-    margin: auto;
+    margin: auto;    
     cursor: pointer;    
 }
 
-.logo {    
+/* .logo {    
+    height: 70px;    
+} */
+.logo {        
+    display: inline-flex;
+    align-self: center;    
+    vertical-align: middle;    
+}
+#gbr {
     height: 70px;    
 }
 
@@ -59,7 +68,7 @@ body {
     border-bottom: 1px;
     border-bottom-style: solid;
     border-bottom-color: rgba(200, 200, 200, 0.5);    
-    display: inline-flex;    
+    display: flex;    
     width: 100%;    
 }
 
@@ -69,7 +78,8 @@ body {
     border-style: solid;
     border-color: rgb(189, 204, 238);            
     padding: 10px 15px;
-    width: fit-content; 
+    width: 35%;    
+    min-width: max-content; 
 }
 
 .search-bar:hover {
@@ -80,28 +90,29 @@ body {
 
 /* Content */
 main {
-    overflow: auto;
-    /* padding: 0 250px;     */
-    margin: 0;    
+    overflow: auto;    
+    margin: 0;        
 }
 
-.belum {
-    margin: 0;
-}
 .title {
     margin: 0 0 5px 0;    
 }
 
-#content {
-    background-color: rgb(255, 255, 255);
-    margin: 30px 250px;    
+#content {    
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255);    
+    padding: 20px 0;        
+    background-color: cornflowerblue;        
 }
 
-#content > article {    
+#content > article {        
     border: 1px rgba(200, 200, 200, 0.5);
     border-style: groove;        
-    margin-bottom: 5px;
-    max-height: 200px;
+    width: 65%;
+    /* max-height: 200px; */
+    flex-wrap: 1;
+    margin: 5px auto;
 }
 
 .description p {
@@ -123,7 +134,7 @@ main {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 4; /* number of lines to show */
+    -webkit-line-clamp: 5; /* number of lines to show */
     -webkit-box-orient: vertical;
     margin-top: 10px;
 }
@@ -143,7 +154,7 @@ main {
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    padding: 20px;    
+    padding: 20px;        
 }
 /* ./Card Effect */
 
@@ -164,7 +175,7 @@ footer p {
 }
 /* ./Footer */
 
-
+/* 
 @media screen and (min-width: 500px) {
     #input-search {
         min-width: 300px;        
@@ -190,4 +201,4 @@ footer p {
     #content {
         margin: 30px 250px;
     }
-}
+} */
