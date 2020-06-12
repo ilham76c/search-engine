@@ -21,7 +21,7 @@ class Dokumen {
         return self::$instance;
     }
 
-    public function getRelevanDokumen($query)
+    public function getRelevanDokumen(array $query) : array
 	{		                        
 		$dokumen = $this->bobotModel->builder()->select(['term','url','tf_idf'])->whereIn('term', $query)->get();        
         $tfidf_dokumen = array();				
@@ -34,11 +34,16 @@ class Dokumen {
         
 		return $tfidf_dokumen;
     }
-    
-    public function result($dokumen)
-	{	        		
-		$dokumen_relevan = $this->dokumenModel->builder()->select(['url','title','description'])->whereIn('url', array_keys($dokumen))->get();		
+
+    public function resetResult()
+    {
         $this->hasilModel->builder()->emptyTable('tbl_hasil');
+    }
+    
+    public function result(array $dokumen)
+	{	        		
+		$dokumen_relevan = $this->dokumenModel->builder()->select(['url','title','description'])->whereIn('url', array_keys($dokumen))->get();		        
+        $this->resetResult();
                 
 		foreach ($dokumen_relevan->getResult() as $row) {
 			$this->hasilModel->builder()->ignore(true)->insert([
@@ -47,8 +52,6 @@ class Dokumen {
 				'description' => $row->description,
 				'rangking' => $dokumen[$row->url]
 			]);
-        }
-        
-		return $dokumen_relevan;		
+        }		
 	}
 }

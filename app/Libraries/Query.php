@@ -22,7 +22,7 @@ class Query {
         return self::$instance;
     }
 
-    public function queryExpansion($query)
+    public function queryExpansion(string $query) : string
     {
         $term = $this->preprocessing->tokenizing($query);        
         $expansion = array();
@@ -37,7 +37,7 @@ class Query {
         return $query.' '.implode(' ', $expansion);
     }
 
-    public function bobotQuery($query)
+    public function bobotQuery(string $query) : array
 	{
         $tf_query = $this->preprocessing->tokenizing(
             $this->preprocessing->stemming(

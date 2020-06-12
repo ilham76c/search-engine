@@ -45,17 +45,8 @@ class Pembobotan {
 					)
 				)
 			);
-
-			// foreach ($tf as $term => $frekuensi) {				
-			// 	if (empty($this->termModel->find($term))) {
-			// 		$this->termModel->insert(['term' => $term]);		
-			// 	}									
-			// 	if (empty($this->bobotModel->where(['term' => $term, 'url' => $value['url']])->findAll())) {
-			// 		$this->bobotModel->insert(['term' => $term, 'url' => $value['url'], 'tf' => $frekuensi]);																
-			// 	}
-			// }
-			foreach ($tf as $term => $frekuensi) {				
-				// $this->termModel->builder()->ignore(true)->insert(['term' => $term]);
+			
+			foreach ($tf as $term => $frekuensi) {								
 				if (empty($this->termModel->find($term))) {
 					$this->termModel->insert(['term' => $term]);		
 				}				
@@ -88,8 +79,7 @@ class Pembobotan {
 	}
 	
 	private function panjangVektor() 
-	{		
-		
+	{				
 		$url = $this->dokumenModel->findColumn('url');
 		foreach ($url as $value) {			
 			$panjang_vektor = 0;
@@ -101,12 +91,12 @@ class Pembobotan {
 		}
 	}    
 	
-	private function getPanjangVektor($url)
+	private function getPanjangVektor(string $url) : float
 	{
 		return $this->dokumenModel->where('url', $url)->findColumn('panjang_vektor')[0];
 	}
 
-    public function cosineSimilarity($query, $dokumen, $paVek_query)
+    public function cosineSimilarity(array $query, array $dokumen, float $paVek_query) : array
     {		
 		$bobot_dokumen = array();
 		foreach ($dokumen as $url => $terms) {
