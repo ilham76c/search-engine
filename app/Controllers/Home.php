@@ -5,30 +5,34 @@ use App\Libraries\Query;
 use App\Libraries\Dokumen;
 use App\Libraries\Tesaurus;
 
-helper('form');
 
 class Home extends BaseController
 {
 	function __construct() {						
+		helper('form');
 		$this->pembobotan = Pembobotan::getInstance();
 		$this->request = \Config\Services::request();
 		$this->tesaurus = Tesaurus::getInstance();
 		$this->query = Query::getInstance();
 		$this->dokumen = Dokumen::getInstance();		
-
 	}
 
 	public function index()
+	{
+		return view('index');
+	}
+
+	public function result()
 	{
 		$model = new \App\Models\HasilModel();
 		
 		$model->orderBy('rangking','DESC');
 		$data = [
-			'documents' => $model->paginate(5, 'no'),
+			'documents' => $model->paginate(10, 'no'),
 			'pager' => $model->pager
 		];
 
-		return view('index', $data);		
+		return view('result', $data);		
 	}
 
 	public function admin() 
@@ -41,22 +45,14 @@ class Home extends BaseController
 	{					
 		$query = $this->query->queryExpansion($this->request->getVar('query'));						
 		list($tfidf_query, $paVek_query) = $this->query->bobotQuery($query);	
-		if (empty($tfidf_query)) {
-			echo "Pencarian/kata kunci tidak ditemukan !!";
-		} else {
-			// print_r($tfidf_query);
-			// echo '<br/>';		
-			// echo $paVek_query;
+		if (empty($tfidf_query)) {			
+			$this->dokumen->resetResult();			
+		} else {			
 			$tfidf_dokumen = $this->dokumen->getRelevanDokumen(array_keys($tfidf_query));		
-		
 			$bobot_dokumen = $this->pembobotan->cosineSimilarity($tfidf_query, $tfidf_dokumen, $paVek_query);
-		
-			$result = $this->dokumen->result($bobot_dokumen);
-			
-			return redirect()->to('search_engine/public/')->withInput();	
-		}
-		
-			
+			$this->dokumen->result($bobot_dokumen);						
+		}					
+		return redirect()->to('result')->withInput();
 	}
 
 	public function hitungBobot()
@@ -103,21 +99,5 @@ class Home extends BaseController
 				throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
 				break;
 		}		
-	}
-
-
-	public function queryExpansion()
-	{
-		$query = $this->query->queryExpansion($this->request->getVar('query'));
-		print_r($query);
-		list($tfidf_query, $paVek_query) = $this->query->bobotQuery($query);
-		echo '<br>';
-		print_r($tfidf_query);
-		echo '<br>';
-		echo $paVek_query;		
-		
-		$tfidf_dokumen = $this->dokumen->getRelevanDokumen(array_keys($tfidf_query));		
-		echo '<br>';
-		print_r($tfidf_dokumen);
 	}	
 }
