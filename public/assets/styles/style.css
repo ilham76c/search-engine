@@ -8,11 +8,12 @@ html {
 }
 
 /* Body open */
-body {
-    /* background-color: rgb(245, 245, 245); */
+body {    
     margin: 0;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;    
-    background-color:rgba(245, 245, 245, 0.5);
+    /* background-color:rgba(245, 245, 245, 0.5); */
+    background-color: rgb(255, 255, 255);    
+
 }
 /* Body Close */
 
@@ -50,9 +51,6 @@ body {
     cursor: pointer;    
 }
 
-/* .logo {    
-    height: 70px;    
-} */
 .logo {        
     display: inline-flex;
     align-self: center;    
@@ -91,7 +89,7 @@ body {
 /* Content */
 main {
     overflow: auto;    
-    margin: 0;        
+    margin: 0;           
 }
 
 .title {
@@ -102,8 +100,7 @@ main {
     display: flex;
     flex-direction: column;
     background-color: rgb(255, 255, 255);    
-    padding: 20px 0;        
-    background-color: cornflowerblue;        
+    padding: 20px 0;              
 }
 
 #content > article {        
