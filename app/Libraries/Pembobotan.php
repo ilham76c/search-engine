@@ -56,8 +56,9 @@ class Pembobotan {
 			}
 		}
 		catch (\Exception $e) {
-			echo $e->getLine();
-			echo $e->getMessage();
+			echo $e->getLine()."\n";
+			print_r($e->getTrace())."\n";
+			echo $e->getMessage()."\n";
             die();
 		}
 		finally {
@@ -78,8 +79,10 @@ class Pembobotan {
 			}
 		}
 		catch (\Exception $e) {
-			echo $e->getLine();
-            die($e->getMessage());
+			echo $e->getLine()."\n";
+			print_r($e->getTrace())."\n";
+			echo $e->getMessage()."\n";
+            die();
 		}
 		finally {
 			unset($terms, $n, $df, $idf);
@@ -98,8 +101,10 @@ class Pembobotan {
 			}
 		}
 		catch (\Exception $e) {
-			echo $e->getLine();
-            die($e->getMessage());
+			echo $e->getLine()."\n";
+			print_r($e->getTrace())."\n";
+			echo $e->getMessage()."\n";
+            die();
 		}
 		finally {
 			unset($bobot, $term, $tfidf);
@@ -121,8 +126,9 @@ class Pembobotan {
 		}
 		catch (\Exception $e) {
 			echo $e->getLine()."\n";
-			print_r($e->getTrace());
-            die($e->getMessage());
+			print_r($e->getTrace())."\n";
+			echo $e->getMessage()."\n";
+            die();
 		}
 		finally {
 			unset($url, $panjang_vektor, $bobot);
@@ -154,7 +160,10 @@ class Pembobotan {
 			return $rangking;
 		}
 		catch (\Exception $e) {
-			die($e->getMessage());
+			echo $e->getLine()."\n";
+			print_r($e->getTrace())."\n";
+			echo $e->getMessage()."\n";
+            die();
 		}
 		finally {
 			unset($bobot_dokumen, $sumsq_tfidf, $rangking);
