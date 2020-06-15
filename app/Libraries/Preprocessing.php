@@ -23,13 +23,13 @@ class Preprocessing {
         }
         return self::$instance;
     }
-    public function caseFolding($sentence) 
+    public function caseFolding(string $sentence) : string
     {
         // convert string to lowercase
         return strtolower($sentence);
     }
     
-    public function stemming($sentence) 
+    public function stemming(string $sentence) : string
     {
 
         // create stemmer
@@ -39,7 +39,7 @@ class Preprocessing {
         return $this->stemmer->stem($sentence);    
     }
     
-    public function stopwordRemoval($sentence)
+    public function stopwordRemoval(string $sentence) : string
     {
         // create stopword remover
         // $stopWordRemoverFactory = new StopWordRemoverFactory();
@@ -47,18 +47,26 @@ class Preprocessing {
         return $this->stopword->remove($sentence);        
     }
     
-    public function tokenizing ($sentence) 
+    public function tokenizing (string $sentence) : array
     {
         // create tokenizer
         // $tokenizerFactory  = new TokenizerFactory();
         // $tokenizer = $tokenizerFactory->createDefaultTokenizer();
         return array_count_values($this->tokenizerTambahan($this->tokenizer->tokenize($sentence)));
     }
-    private function tokenizerTambahan($array) 
+    private function tokenizerTambahan(array $array_term) : array
     {
         // regex kata (kata-kata, kata, 20.000 -> 20000)
         //$data = array_map(function($value) { return preg_replace('/^[\W]+$|[.]|^\W*(-)\W*|\W*(-)\W*$/', null, $value); }, $array);
         // menghapus null value pada array
-        return array_filter(array_map(function($value) { return preg_replace('/^[\W]+$|[.]|^\W*(-)\W*|\W*(-)\W*$/', null, $value); }, $array));        
+        return array_filter(
+            array_map(
+                function($value) 
+                { 
+                    return preg_replace('/^[\W]+$|[.]|^\W*(-)\W*|\W*(-)\W*$/', null, $value); 
+                }, 
+                $array_term
+            )
+        );        
     }
 }
