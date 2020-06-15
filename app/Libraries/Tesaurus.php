@@ -30,30 +30,54 @@ class Tesaurus {
 
     public function insert(string $kata, string $gugus_kata) : bool
     {
-        $result = $this->tesaurusModel->builder()->ignore(true)->insert(
-            [
-                'kata' => trim($kata),
-                'gugus_kata' => $this->formatString($gugus_kata)
-            ]            
-        );
-        return $this->booleanResult($result);
+        try {
+            $result = $this->tesaurusModel->builder()->ignore(true)->insert(
+                [
+                    'kata' => trim($kata),
+                    'gugus_kata' => $this->formatString($gugus_kata)
+                ]            
+            );
+            return $this->booleanResult($result);
+        }
+        catch (\Exception $e) {
+            die($e->getMessage());
+        }
+        finally {
+            unset($result);
+        }
     }
 
     public function update(string $id, string $kata, string $gugus_kata) : bool
     {
-        $result = $this->tesaurusModel->where('id', $id)->set(
-            [
-                'kata' => trim($kata),
-                'gugus_kata' => $this->formatString($gugus_kata)
-            ]
-        )->update();
-        return $this->booleanResult($result);
+        try {
+            $result = $this->tesaurusModel->where('id', $id)->set(
+                [
+                    'kata' => trim($kata),
+                    'gugus_kata' => $this->formatString($gugus_kata)
+                ]
+            )->update();
+            return $this->booleanResult($result);
+        }
+        catch (\Exception $e) {
+            die($e->getMessage());
+        }
+        finally {
+            unset($result);
+        }
     }
 
     public function delete(string $id) : bool
     {
-        $result = $this->tesaurusModel->where('id', $id)->delete(false);                                
-        return $this->booleanResult($result->connID->affected_rows);
+        try {
+            $result = $this->tesaurusModel->where('id', $id)->delete(false);                                
+            return $this->booleanResult($result->connID->affected_rows);
+        }
+        catch (\Exception $e) {
+            die($e->getMessage());
+        }
+        finally {
+            unset($result);
+        }
     }
 
     private function booleanResult(int $result) : bool

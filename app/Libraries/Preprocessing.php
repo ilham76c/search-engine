@@ -7,6 +7,15 @@ use Sastrawi\Tokenizer\TokenizerFactory;
 class Preprocessing {
     private static $instance = null;
 
+    public function __construct()
+    {
+        $stemmerFactory = new StemmerFactory();
+        $this->stemmer = $stemmerFactory->createStemmer();
+        $stopWordRemoverFactory = new StopWordRemoverFactory();
+        $this->stopword = $stopWordRemoverFactory->createStopWordRemover();
+        $tokenizerFactory  = new TokenizerFactory();
+        $this->tokenizer = $tokenizerFactory->createDefaultTokenizer();
+    }
     public static function getInstance() 
     {
         if (self::$instance == null) {
@@ -22,33 +31,34 @@ class Preprocessing {
     
     public function stemming($sentence) 
     {
+
         // create stemmer
         // cukup dijalankan sekali saja, biasanya didaftarkan di service container
-        $stemmerFactory = new StemmerFactory();
-        $stemmer = $stemmerFactory->createStemmer();        
-        return $stemmer->stem($sentence);    
+        // $stemmerFactory = new StemmerFactory();
+        // $stemmer = $stemmerFactory->createStemmer();
+        return $this->stemmer->stem($sentence);    
     }
     
     public function stopwordRemoval($sentence)
     {
         // create stopword remover
-        $stopWordRemoverFactory = new StopWordRemoverFactory();
-        $stopword = $stopWordRemoverFactory->createStopWordRemover();
-        return $stopword->remove($sentence);        
+        // $stopWordRemoverFactory = new StopWordRemoverFactory();
+        // $stopword = $stopWordRemoverFactory->createStopWordRemover();
+        return $this->stopword->remove($sentence);        
     }
     
     public function tokenizing ($sentence) 
     {
         // create tokenizer
-        $tokenizerFactory  = new TokenizerFactory();
-        $tokenizer = $tokenizerFactory->createDefaultTokenizer();
-        return array_count_values($this->tokenizerTambahan($tokenizer->tokenize($sentence)));
+        // $tokenizerFactory  = new TokenizerFactory();
+        // $tokenizer = $tokenizerFactory->createDefaultTokenizer();
+        return array_count_values($this->tokenizerTambahan($this->tokenizer->tokenize($sentence)));
     }
     private function tokenizerTambahan($array) 
     {
         // regex kata (kata-kata, kata, 20.000 -> 20000)
-        $data = array_map(function($value) { return preg_replace('/^[\W]+$|[.]|^\W*(-)\W*|\W*(-)\W*$/', null, $value); }, $array);
+        //$data = array_map(function($value) { return preg_replace('/^[\W]+$|[.]|^\W*(-)\W*|\W*(-)\W*$/', null, $value); }, $array);
         // menghapus null value pada array
-        return array_filter($data);        
+        return array_filter(array_map(function($value) { return preg_replace('/^[\W]+$|[.]|^\W*(-)\W*|\W*(-)\W*$/', null, $value); }, $array));        
     }
 }

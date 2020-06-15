@@ -50,13 +50,15 @@ class Pembobotan {
 				foreach ($tf as $term => $frekuensi) {								
 					if (empty($this->termModel->find($term))) {
 						$this->termModel->insert(['term' => $term]);		
-					}				
+					}					
 					$this->bobotModel->builder()->ignore(true)->insert(['term' => $term, 'url' => $value['url'], 'tf' => 1 + log10($frekuensi)]);
 				}
 			}
 		}
 		catch (\Exception $e) {
-            die($e->getMessage());
+			echo $e->getLine();
+			echo $e->getMessage();
+            die();
 		}
 		finally {
 			unset($dokumen, $tf);
@@ -76,6 +78,7 @@ class Pembobotan {
 			}
 		}
 		catch (\Exception $e) {
+			echo $e->getLine();
             die($e->getMessage());
 		}
 		finally {
@@ -95,6 +98,7 @@ class Pembobotan {
 			}
 		}
 		catch (\Exception $e) {
+			echo $e->getLine();
             die($e->getMessage());
 		}
 		finally {
@@ -116,6 +120,8 @@ class Pembobotan {
 			}
 		}
 		catch (\Exception $e) {
+			echo $e->getLine()."\n";
+			print_r($e->getTrace());
             die($e->getMessage());
 		}
 		finally {
