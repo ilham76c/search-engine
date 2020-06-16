@@ -74,7 +74,7 @@ class Pembobotan {
 			
 			foreach ($terms as $term) {			
 				$df = count($this->bobotModel->where('term',$term)->findAll());
-				$idf = (log10($n/$df))+1;			
+				$idf = log10($n/$df) + 1;	
 				$this->termModel->update($term, ['df' => $df, 'idf' => $idf]);
 			}
 		}

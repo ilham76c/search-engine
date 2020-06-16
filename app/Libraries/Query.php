@@ -60,7 +60,7 @@ class Query {
             array_walk(
                 $tf_query,
                 function($tf, $term) use (&$tfidf_query) {
-                    $tfidf = $tf * ($this->termModel->where('term', $term)->findColumn('idf'))[0];
+                    $tfidf = (log10($tf) + 1) * ($this->termModel->where('term', $term)->findColumn('idf'))[0];
                     if ($tfidf != 0) {
                         $tfidf_query[$term] = $tfidf;
                     }                 
