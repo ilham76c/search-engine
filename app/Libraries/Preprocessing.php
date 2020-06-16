@@ -54,6 +54,7 @@ class Preprocessing {
         // $tokenizer = $tokenizerFactory->createDefaultTokenizer();
         return array_count_values($this->tokenizerTambahan($this->tokenizer->tokenize($sentence)));
     }
+    
     private function tokenizerTambahan(array $array_term) : array
     {
         // regex kata (kata-kata, kata, 20.000 -> 20000)
