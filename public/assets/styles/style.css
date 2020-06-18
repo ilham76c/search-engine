@@ -124,7 +124,7 @@ main {
 .title,
 .url,
 .description {
-    text-decoration: none;
+    text-decoration: none;    
 }
 
 .wrap {
@@ -136,9 +136,9 @@ main {
     margin-top: 10px;
 }
 
-.url:hover {
-    font-size: 1.1em;
-}
+/* .url:hover {
+    font-size: 1em;
+} */
 
 .pesan {
     text-align: center;
@@ -152,6 +152,7 @@ main {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     padding: 20px;        
+    overflow: hidden;
 }
 /* ./Card Effect */
 
