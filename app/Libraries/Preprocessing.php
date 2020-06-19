@@ -36,7 +36,7 @@ class Preprocessing {
         // cukup dijalankan sekali saja, biasanya didaftarkan di service container
         // $stemmerFactory = new StemmerFactory();
         // $stemmer = $stemmerFactory->createStemmer();
-        return $this->stemmer->stem($sentence);    
+        return preg_replace('/-/', ' ', $this->stemmer->stem($sentence));
     }
     
     public function stopwordRemoval(string $sentence) : string
