@@ -52,7 +52,7 @@ class Dokumen {
     public function result(array $dokumen)
 	{	        		
         try {
-            $dokumen_relevan = $this->dokumenModel->builder()->select(['url','title','description'])->whereIn('url', array_keys($dokumen))->get();		        
+            $dokumen_relevan = $this->dokumenModel->builder()->select(['url','title','description','kategori'])->whereIn('url', array_keys($dokumen))->get();		        
             $this->resetResult();
                     
             foreach ($dokumen_relevan->getResult() as $row) {
@@ -60,6 +60,7 @@ class Dokumen {
                     'url' => $row->url,
                     'title' => $row->title,
                     'description' => $row->description,
+                    'kategori' => $row->kategori,
                     'rangking' => $dokumen[$row->url]
                 ]);
             }		

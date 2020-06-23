@@ -13,7 +13,7 @@ class HasilModel extends Model
     protected $returnType = 'object';
     protected $useSoftDeletes = false;
     
-    protected $allowedFields = ['url', 'title', 'description', 'rangking'];
+    protected $allowedFields = ['url', 'title', 'description', 'rangking','kategori'];
 
     protected $useTimestamps = false;
     protected $createdField = 'created_at';
