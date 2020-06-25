@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Kelola Berita</title>
+  <title>Kelola Tesaurus</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -40,7 +40,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b>DLH</span>
+      <span class="logo-lg"><b>Admin</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -84,10 +84,10 @@
             <div class="box-body">
               <div class="box-header with-border">
 
-                <h3 class="box-title">Table Data Berita</h3>
+                <h3 class="box-title">Table Data Tesaurus</h3>
                 <div class="box-tools pull-right">
                 
-                  <a href="tesaurus/form" class="btn btn-primary btn-sm"><i class="fa fa-plus">&nbsp;</i>Tambah Berita</a>
+                  <a href="tesaurus/form" class="btn btn-primary btn-sm"><i class="fa fa-plus">&nbsp;</i>Tambah</a>
                 </div>
               </div>
              
