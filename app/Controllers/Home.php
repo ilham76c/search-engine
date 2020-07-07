@@ -1,6 +1,8 @@
 <?php namespace App\Controllers;
 
-use App\Libraries\Pembobotan;
+use App\Libraries\TfIdf;
+use App\Libraries\PanjangVektor;
+use App\Libraries\CosineSimilarity;
 use App\Libraries\Query;
 use App\Libraries\Dokumen;
 use App\Libraries\Tesaurus;
@@ -10,7 +12,9 @@ class Home extends BaseController
 {
 	function __construct() {						
 		helper('form');
-		$this->pembobotan = Pembobotan::getInstance();
+		$this->tfidf = TfIdf::getInstance();
+		$this->panjangVektor = PanjangVektor::getInstance();
+		$this->cosim = CosineSimilarity::getInstance();
 		$this->request = \Config\Services::request();
 		$this->tesaurus = Tesaurus::getInstance();
 		$this->query = Query::getInstance();
@@ -46,13 +50,14 @@ class Home extends BaseController
 	public function search() 
 	{					
 		try {
-			$query = $this->query->queryExpansion($this->request->getVar('query'));						
+			$query = $this->query->queryExpansion($this->request->getVar('query'));
+			//$query = $this->request->getVar('query');
 			list($tfidf_query, $paVek_query) = $this->query->bobotQuery($query);	
 			if (empty($tfidf_query)) {			
 				$this->dokumen->resetResult();			
 			} else {			
 				$tfidf_dokumen = $this->dokumen->getRelevanDokumen(array_keys($tfidf_query));		
-				$bobot_dokumen = $this->pembobotan->cosineSimilarity($tfidf_query, $tfidf_dokumen, $paVek_query);
+				$bobot_dokumen = $this->cosim->cosineSimilarity($tfidf_query, $tfidf_dokumen, $paVek_query);
 				$this->dokumen->result($bobot_dokumen);						
 			}					
 			return redirect()->to('result')->withInput();
@@ -67,7 +72,11 @@ class Home extends BaseController
 
 	public function hitungBobot()
 	{
-		$this->pembobotan->hitungBobot();
+		//$this->pembobotan->hitungBobot();
+		$this->tfidf->tf(); 
+		$this->tfidf->idf(); 
+		$this->tfidf->tfidf(); 
+		$this->panjangVektor->panjangVektor();
 	}	
 	
 	public function admin() 

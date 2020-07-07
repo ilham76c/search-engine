@@ -16,10 +16,7 @@ class Query {
     
     public static function getInstance()
     {
-        if (self::$instance == null) {
-            self::$instance = new Query();            
-        }
-        return self::$instance;
+        return (self::$instance == null) ? self::$instance = new Query() : self::$instance;
     }
 
     public function queryExpansion(string $query) : string
@@ -27,18 +24,18 @@ class Query {
         try {
             $term = $this->preprocessing->tokenizing($query);        
             $expansion = array();
-                    
+
             array_walk (
                 array_keys($term),
                 function($key) use (&$expansion) { 
                     $expansion[$key] = implode(' ', explode(',', $this->tesaurusModel->where('kata', $key)->findColumn('gugus_kata')[0]));
                 }
             );
-                    
+
             return $query.' '.implode(' ', $expansion);
         }
         catch (\Exception $e) {
-            die($e->getMessage());
+            die("$e->getLine(); \n $e->getTrace(); \n $e->getMessage();");
         }
         finally {
             unset($term, $expansion);
@@ -55,7 +52,7 @@ class Query {
                     )
                 )
             );
-            
+
             $tfidf_query = array();
             array_walk(
                 $tf_query,
@@ -65,19 +62,19 @@ class Query {
                         $tfidf_query[$term] = $tfidf;
                     }                 
                 }
-            );		        		
-            
+            );		        		            
+
             $paVek_query = array_map(
                 function($tfidf) {
                     return $tfidf ** 2;
                 },
                 $tfidf_query
-            );
-                
+            );  
+
             return array($tfidf_query,sqrt(array_sum($paVek_query)));
         }
         catch (\Exception $e) {
-            die($e->getMessage());
+            die("$e->getLine(); \n $e->getTrace(); \n $e->getMessage();");
         }
         finally {
             unset($tf_query, $tfidf_query, $paVek_query);
