@@ -30,10 +30,7 @@ class BobotModel extends Model
     private static $instance = null;
 
     public static function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new BobotModel();
-        }
-        return self::$instance;
+    {        
+        return (self::$instance == null) ? self::$instance = new BobotModel() : self::$instance;
     }
 }

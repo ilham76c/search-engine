@@ -128,4 +128,4 @@ nb-configuration.xml
 
 # tambahan
 !env
-!*/app/Config/Database.php
+app/Config/Database.php
