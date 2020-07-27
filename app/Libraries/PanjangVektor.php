@@ -32,10 +32,13 @@ class PanjangVektor {
 				$this->dokumenModel->update($value, ['panjang_vektor' => sqrt($panjang_vektor)]);
 			}
 		}
-		catch (\Exception $e) {
-			echo $e->getLine()."\n"; print_r($e->getTrace())."\n"; echo $e->getMessage()."\n";
-            die();
-		}
+		catch (\Throwable $e) {                                                                     
+            die("Caught exception
+                <br>File: {$e->getFile()}
+                <br>Line: {$e->getLine()}
+                <br>Message: {$e->getMessage()}"
+            );
+        }
 		finally {
 			unset($url, $panjang_vektor, $bobot);
 		}

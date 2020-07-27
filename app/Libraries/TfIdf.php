@@ -47,9 +47,13 @@ class TfIdf {
 				}
 			}
 		}
-		catch (\Exception $e) {			
-            die("$e->getLine(); \n $e->getTrace(); \n $e->getMessage();");
-		}
+		catch (\Throwable $e) {                                                                     
+            die("Caught exception
+                <br>File: {$e->getFile()}
+                <br>Line: {$e->getLine()}
+                <br>Message: {$e->getMessage()}"
+            );
+        }
 		finally {
 			unset($dokumen, $tf);
 		}
@@ -67,9 +71,13 @@ class TfIdf {
 				$this->termModel->update($term, ['df' => $df, 'idf' => $idf]);
 			}
 		}
-		catch (\Exception $e) {
-			die("$e->getLine(); \n $e->getTrace(); \n $e->getMessage();");
-		}
+		catch (\Throwable $e) {                                                                     
+            die("Caught exception
+                <br>File: {$e->getFile()}
+                <br>Line: {$e->getLine()}
+                <br>Message: {$e->getMessage()}"
+            );
+        }
 		finally {
 			unset($terms, $n, $df, $idf);
 		}
@@ -88,9 +96,13 @@ class TfIdf {
 				)->update();
 			}
 		}
-		catch (\Exception $e) {
-			die("$e->getLine(); \n $e->getTrace(); \n $e->getMessage();");
-		}
+		catch (\Throwable $e) {                                                                     
+            die("Caught exception
+                <br>File: {$e->getFile()}
+                <br>Line: {$e->getLine()}
+                <br>Message: {$e->getMessage()}"
+            );
+        }
 		finally {
 			unset($bobot, $term, $tfidf);
 		}

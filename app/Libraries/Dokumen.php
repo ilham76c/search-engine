@@ -3,7 +3,7 @@
 use App\Models\BobotModel;
 use App\Models\DokumenModel;
 use App\Models\HasilModel;
-
+use App\Libraries\CacheManager;
 
 class Dokumen {
     private static $instance = null;
@@ -12,6 +12,7 @@ class Dokumen {
         $this->bobotModel = BobotModel::getInstance();
         $this->dokumenModel = DokumenModel::getInstance();
         $this->hasilModel = HasilModel::getInstance();
+        $this->cacheManager = CacheManager::getInstance();
     }
 
     public static function getInstance()
@@ -26,7 +27,7 @@ class Dokumen {
 	{		           
         try {
             $dokumen = $this->bobotModel->builder()->select(['term','url','tf_idf'])->whereIn('term', $query)->get();        
-            $tfidf_dokumen = array();				
+            		
             array_walk (
                 $dokumen->getResult(),
                 function($row) use (&$tfidf_dokumen) {
@@ -36,11 +37,19 @@ class Dokumen {
             
             return $tfidf_dokumen;
         }
-        catch (\Exception $e) {
-            die($e->getMessage());
+        catch (\Throwable $e) {                                                                     
+            die("Caught exception
+                <br>File: {$e->getFile()}
+                <br>Line: {$e->getLine()}
+                <br>Message: {$e->getMessage()}"
+            );
         }
         finally {
-            unset($dokumen, $tfidf_dokumen);
+            $data = array(
+                "pengambilan_dokumen" => $tfidf_dokumen
+            );
+            $this->cacheManager->setCache("proses_pengambilan_dokumen", $data);
+            unset($dokumen, $tfidf_dokumen, $data);
         }
     }
 
@@ -65,10 +74,19 @@ class Dokumen {
                 ]);
             }		
         }
-        catch (\Exception $e) {
-            die($e->getMessage());
+        catch (\Throwable $e) {                                                                     
+            die("Caught exception
+                <br>File: {$e->getFile()}
+                <br>Line: {$e->getLine()}
+                <br>Message: {$e->getMessage()}"
+            );
         }
         finally {
+            arsort($dokumen);
+            $data = array(
+                'dokumen_rangking' => $dokumen
+            );
+            $this->cacheManager->setCache('hasil_perangkingan', $data);
             unset($dokumen_relevan);
         }
 	}

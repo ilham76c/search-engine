@@ -39,8 +39,12 @@ class Tesaurus {
             );
             return $this->booleanResult($result);
         }
-        catch (\Exception $e) {
-            die($e->getMessage());
+        catch (\Throwable $e) {                                                                     
+            die("Caught exception
+                <br>File: {$e->getFile()}
+                <br>Line: {$e->getLine()}
+                <br>Message: {$e->getMessage()}"
+            );
         }
         finally {
             unset($result);
@@ -58,8 +62,12 @@ class Tesaurus {
             )->update();
             return $this->booleanResult($result);
         }
-        catch (\Exception $e) {
-            die($e->getMessage());
+        catch (\Throwable $e) {                                                                     
+            die("Caught exception
+                <br>File: {$e->getFile()}
+                <br>Line: {$e->getLine()}
+                <br>Message: {$e->getMessage()}"
+            );
         }
         finally {
             unset($result);
@@ -72,8 +80,12 @@ class Tesaurus {
             $result = $this->tesaurusModel->where('id', $id)->delete(false);                                
             return $this->booleanResult($result->connID->affected_rows);
         }
-        catch (\Exception $e) {
-            die($e->getMessage());
+        catch (\Throwable $e) {                                                                     
+            die("Caught exception
+                <br>File: {$e->getFile()}
+                <br>Line: {$e->getLine()}
+                <br>Message: {$e->getMessage()}"
+            );
         }
         finally {
             unset($result);

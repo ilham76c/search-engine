@@ -6,19 +6,23 @@ use App\Libraries\CosineSimilarity;
 use App\Libraries\Query;
 use App\Libraries\Dokumen;
 use App\Libraries\Tesaurus;
+use App\Libraries\Proses;
 
 
 class Home extends BaseController
-{
+{	
+
 	function __construct() {						
-		helper('form');
+		helper('form');		
 		$this->tfidf = TfIdf::getInstance();
 		$this->panjangVektor = PanjangVektor::getInstance();
 		$this->cosim = CosineSimilarity::getInstance();
 		$this->request = \Config\Services::request();
 		$this->tesaurus = Tesaurus::getInstance();
 		$this->query = Query::getInstance();
-		$this->dokumen = Dokumen::getInstance();		
+		$this->dokumen = Dokumen::getInstance();
+		$this->proses = Proses::getInstance();	
+		$this->session = \Config\Services::session($config);	
 	}
 
 	public function index()
@@ -49,9 +53,9 @@ class Home extends BaseController
 
 	public function search() 
 	{					
-		try {
-			$query = $this->query->queryExpansion($this->request->getVar('query'));
-			//$query = $this->request->getVar('query');
+		try {			
+			$query = $this->query->queryExpansion($this->request->getVar('query'), $this->session->get('btn_QE'));			
+			
 			list($tfidf_query, $paVek_query) = $this->query->bobotQuery($query);	
 			if (empty($tfidf_query)) {			
 				$this->dokumen->resetResult();			
@@ -62,17 +66,32 @@ class Home extends BaseController
 			}					
 			return redirect()->to('result')->withInput();
 		}
-		catch (\Exception $e) {
-			die($e->getMessage());
-		}
+		catch (\Throwable $e) {                                                                     
+            die("Caught exception
+                <br>File: {$e->getFile()}
+                <br>Line: {$e->getLine()}
+                <br>Message: {$e->getMessage()}"
+            );
+        }
 		finally {
 			unset($query, $tfidf_query, $paVek_query, $tfidf_dokumen, $bobot_dokumen);
 		}
 	}
 
+	public function proses() {	
+		$data['proses_query_expansion'] = $this->proses->getProsesQueryExpansion();
+		$data['proses_pembobotan_query'] = $this->proses->getProsesPembobotanQuery();
+		$data['proses_pengambilan_dokumen'] = $this->proses->getProsesPengambilanDokumen();
+		$data['proses_perangkingan_dokumen'] = $this->proses->getProsesPerangkinganDokumen();
+		$data['proses_preprocessing_query'] = $this->proses->getProsesPreprocessingQuery();
+		return view('proses', $data);
+	}
+
+	public function button($value) {		
+		$this->session->set('btn_QE', ($value == 'true') ? true : false);						
+	}
 	public function hitungBobot()
-	{
-		//$this->pembobotan->hitungBobot();
+	{		
 		$this->tfidf->tf(); 
 		$this->tfidf->idf(); 
 		$this->tfidf->tfidf(); 
@@ -85,9 +104,13 @@ class Home extends BaseController
 			$data['tesaurus'] = $this->tesaurus->getAll();		
 			return view('admin/page', $data);
 		}
-		catch (\Exception $e) {
-			die($e->getMessage());
-		}
+		catch (\Throwable $e) {                                                                     
+            die("Caught exception
+                <br>File: {$e->getFile()}
+                <br>Line: {$e->getLine()}
+                <br>Message: {$e->getMessage()}"
+            );
+        }
 		finally {
 			unset($data);
 		}

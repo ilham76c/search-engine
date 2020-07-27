@@ -18,27 +18,26 @@ class CosineSimilarity {
     public function cosineSimilarity(array $query, array $dokumen, float $paVek_query) : array
     {		
 		try {
-			$bobot_dokumen = array();
+			$rangking = array();	
 			foreach ($dokumen as $url => $terms) {
-				$sumsq_tfidf = 0;
+				$sumsq_tfidf = 0;				
 				foreach ($terms as $term => $tfidf) {
-					$sumsq_tfidf += $query[$term] * $tfidf;
+					$sumsq_tfidf += $query[$term] * $tfidf;					
 				}
-				$bobot_dokumen[$url] = $sumsq_tfidf;
-			}
-			
-			$rangking = array();			
-			foreach ($bobot_dokumen as $url => $sumsq) {						
-				$rangking[$url] = $sumsq / ($paVek_query * $this->pavek->getPanjangVektor($url));
-			}		
+				$rangking[$url] = $sumsq_tfidf  / ($paVek_query * $this->pavek->getPanjangVektor($url));
+			}						
 			
 			return $rangking;
 		}
-		catch (\Exception $e) {
-			die("$e->getLine(); \n $e->getTrace(); \n $e->getMessage();");
-		}
+		catch (\Throwable $e) {                                                                     
+            die("Caught exception
+                <br>File: {$e->getFile()}
+                <br>Line: {$e->getLine()}
+                <br>Message: {$e->getMessage()}"
+            );
+        }
 		finally {
-			unset($bobot_dokumen, $sumsq_tfidf, $rangking);
+			unset($sumsq_tfidf, $rangking);
 		}
 	}	
 }

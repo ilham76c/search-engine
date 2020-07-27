@@ -39,6 +39,8 @@ $routes->add('/admin', 'Home::admin');
 $routes->add('/stem', 'Home::stem');
 $routes->get('/result', 'Home::result');
 $routes->add('/tesaurus/(:segment)', 'Home::tesaurus/$1');
+$routes->add('/proses', 'Home::proses');
+$routes->post('/button/(:alpha)', 'Home::button/$1');
 /**
  * --------------------------------------------------------------------
  * Additional Routing
