@@ -21,7 +21,7 @@ class Query {
         return (self::$instance == null) ? self::$instance = new Query() : self::$instance;
     }
 
-    public function queryExpansion(string $query, bool $isQE) : string
+    public function queryExpansion(string $query, $isQE) : string
     {        
         try {   
             $term = $this->preprocessing->tokenizing($query);                 
