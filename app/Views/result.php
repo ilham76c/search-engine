@@ -5,23 +5,7 @@
         <link rel="stylesheet" href="<?= base_url();?>/assets/styles/style.css">
         <link rel="stylesheet" href="<?= base_url();?>/assets/styles/pagination-style.css">
         <link rel="stylesheet" href="<?= base_url();?>/assets/styles/button-style.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script>
-            // $(document).ready(function() {
-            //     $('#btn-switch').change(function() {
-            //         console.log('jos');
-            //     });
-            // });
-            let idx = 1;
-            function jos() {
-                let check = document.getElementById('btn-switch').checked;                                
-                
-                console.log(`jos ${idx++} ${check}`);                
-                $.post(`button/${check}`,function(response){
-                    console.log(response);
-                })
-            } 
-        </script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">       
     </head>
     <body>
         <header>            
@@ -29,12 +13,13 @@
                 <div class="logo">
                     <img id="gbr" src="<?= base_url();?>/assets/img/logo.png">                                
                 </div>
+                
                 <form method="GET" action="<?= site_url('search')?>"  class="search-bar">    
                     <input id="input-search" name="query" type="search" placeholder="Search the web.." value="<?= old('query');?>" required>
                     <button id="btn-search" type="submit"></button>
                 </form>      
                 <div class="btn-container">
-                    <input id="btn-switch" name="btn-switch" type="checkbox" onclick="jos();" <?php echo ($_SESSION['btn_QE']) ? 'checked' : '';?>>   
+                    <input id="btn-switch" name="btn-switch" type="checkbox" <?= (session('btn_QE') == 'true') ? 'checked' : '';?>>   
                     <a id="btn-proses" href="<?= site_url('proses')?>" target="_blank">
                         Proses
                         <span></span>
@@ -80,5 +65,15 @@
         </footer>
         <script src="<?= base_url();?>/assets/bower_components/jquery/dist/jquery.min.js"></script>        
         <script src="<?= base_url();?>/assets/scripts/script.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#btn-switch').on('click', function() {                    
+                    console.log((this.checked) ? 1 : 0);                    
+                    $.post(`button/${this.checked}`,function(response){
+                        console.log(response);
+                    });
+                });
+            });            
+        </script>
     </body>
 </html>

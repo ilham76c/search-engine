@@ -64,7 +64,7 @@ class Home extends BaseController
 				$bobot_dokumen = $this->cosim->cosineSimilarity($tfidf_query, $tfidf_dokumen, $paVek_query);
 				$this->dokumen->result($bobot_dokumen);						
 			}					
-			return redirect()->to('result')->withInput();
+			return redirect('result')->withInput();
 		}
 		catch (\Throwable $e) {                                                                     
             die("Caught exception
@@ -88,7 +88,8 @@ class Home extends BaseController
 	}
 
 	public function button($value) {		
-		$this->session->set('btn_QE', ($value == 'true') ? true : false);						
+		$this->session->set('btn_QE', $value);						
+		return var_dump((bool)$value);
 	}
 	public function hitungBobot()
 	{		
