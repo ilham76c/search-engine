@@ -65,7 +65,7 @@ class Dokumen {
             $this->resetResult();
                     
             foreach ($dokumen_relevan->getResult() as $row) {
-                $this->hasilModel->builder()->ignore(true)->insert([
+                $this->hasilModel->insert([
                     'url' => $row->url,
                     'title' => $row->title,
                     'description' => $row->description,
