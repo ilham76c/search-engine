@@ -21,7 +21,7 @@ class App extends BaseConfig
 	| environments.
 	|
 	*/
-	public $baseURL = 'http://localhost/search_engine/public';
+	public $baseURL = 'https://mesin-pencari.herokuapp.com';
 
 	/*
 	|--------------------------------------------------------------------------
