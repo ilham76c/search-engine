@@ -1,59 +1,20 @@
-# CodeIgniter 4 Framework
+## Deskripsi
+Aplikasi ini merupakan aplikasi mesin pencari atau search engine yang bekerja dengan cara mencocokkan kata kunci/query yang dimasukkan pengguna pada form pencarian dengan kata yang ada pada koleksi dokumen web di database. Setelah sistem mecocokkan kata kunci/query dengan koleksi dokumen web yang ada di database, selanjutnya sistem melakukan perthitungan untuk menentukan dokumen web mana yang isinya sesuai dengan kata kunci/query yang dimasukkan pengguna. Kemudian sistem menampilkan dokumen web yang dianggap paling sesuai isinya dengan kata kunci/query yang dimasukkkan pengguna, dengan urutan dokumen paling mirip berada di posisi atas.
 
-## What is CodeIgniter?
+## Data
+Data atau dokumen web yang digunakan pada aplikasi ini hanya dokumen web yang **berisi informasi wisata saja**. Jadi, proses pencarian hanya terbatas pada lingkup __informasi pariwisata saja__.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible, and secure. 
-More information can be found at the [official site](http://codeigniter.com).
+## Fitur
+- Melakukan pencarian dokumen web berdasarkan kata kunci/query yang dimasukkan pengguna.
+- Proses mulai dari pencocokan dokumen dengan kata kunci/query hinggan perhitungan dapat ditampilkan pada menu "Proses".
+- Terdapat tombol untuk memperluas kata kunci/query dengan cara menambahkan sinonim dari kata kunci/query.
 
-This repository holds the distributable version of the framework,
-including the user guide. It has been built from the 
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## Teknologi
+Berikut adalah teknologi yang digunakan dalam membangun aplikasi ini:
+- Framework : Codeigniter 4, Bootstrap, JQuery
+- Database  : PostgreSQL
+- Library   : sastrawi/sastrawi, sastrawi/tokenizer
 
-**This is pre-release code and should not be used in production sites.**
-
-More information about the plans for version 4 can be found in [the announcement](http://forum.codeigniter.com/thread-62615.html) on the forums.
-
-The user guide corresponding to this version of the framework can be found
-[here](https://codeigniter4.github.io/userguide/). 
-
-
-## Important Change with index.php
-
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
-
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
-
-**Please** read the user guide for a better explanation of how CI4 works!
-The user guide updating and deployment is a bit awkward at the moment, but we are working on it!
-
-## Repository Management
-
-We use Github issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
-
-This repository is a "distribution" one, built by our release preparation script. 
-Problems with it can be raised on our forum, or as issues in the main repository.
-
-## Contributing
-
-We welcome contributions from the community.
-
-Please read the [*Contributing to CodeIgniter*](https://github.com/codeigniter4/CodeIgniter4/blob/develop/contributing.md) section in the development repository.
-
-## Server Requirements
-
-PHP version 7.2 or higher is required, with the following extensions installed: 
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php)
-- xml (enabled by default - don't turn it off)
+## Release
+URL untuk akses aplikasi: 
+[Search Engine](https://mesin-pencari.herokuapp.com/)
